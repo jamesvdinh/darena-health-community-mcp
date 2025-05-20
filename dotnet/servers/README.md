@@ -36,8 +36,7 @@ Once you are ready with your project, you can create a PR to the main branch. Se
 that your submission follows the restrictions. A DarenaSolutions maintainer will review your PR. Once any comments or changes
 have been resolved and the PR has been approved, you may merge your changes.
 
-The merge will trigger an action that will make your package available in the nuget repository with a name that matches
-your project name.
+The merge will trigger an action that will make your server available as a pluggable MCP server in the MeldRx ecosystem.
 
 ## Example Project
 An example project has been added for reference: [Example Project](darena-solutions)
