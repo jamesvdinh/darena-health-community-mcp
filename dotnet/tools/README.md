@@ -58,3 +58,6 @@ have been resolved and the PR has been approved, you may merge your changes.
 
 The merge will trigger an action that will make your package available in the nuget repository with a name that matches
 your project name.
+
+## Example Project
+An example project has been added for reference: [Example Project](darena-solutions)
