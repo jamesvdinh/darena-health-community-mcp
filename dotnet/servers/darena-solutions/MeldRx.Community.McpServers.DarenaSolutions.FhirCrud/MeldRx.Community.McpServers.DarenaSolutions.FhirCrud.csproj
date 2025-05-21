@@ -7,7 +7,6 @@
   <ItemGroup>
     <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="7.2.3" />
     <PackageReference Include="Duende.IdentityServer.EntityFramework" Version="7.2.3" />
-    <PackageReference Include="Hl7.Fhir.R4" Version="5.11.6" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.16" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.16" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.16">
