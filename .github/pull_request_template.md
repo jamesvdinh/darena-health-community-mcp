@@ -2,7 +2,7 @@
 
 _Provide a brief description of the PR_
 
-### MCP Server Checklist
+### New MCP Server Checklist
 
 - [ ] Not applicable. This PR is regarding MCP tools
 - [ ] I have created a directory that contains my servers
