@@ -10,7 +10,7 @@ public static class ServiceCollectionExtensions
     {
         return services.AddPatientAgeMcpTool();
     }
-    
+
     private static IServiceCollection AddPatientAgeMcpTool(this IServiceCollection services)
     {
         return services
