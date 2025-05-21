@@ -8,33 +8,35 @@ packages.
 > Since these tools will be available as nuget packages to the community, there are additional restrictions to be aware
 > of in contrast to creating your own MCP server which houses your tools.
 
+We provide a core project that can provide some utilities and helpers that can help get build tools.
+
 ## Restrictions
-- In the `/tools` directory, create a folder that represents you as an individual or an organization. For example `/tools/darena-solutions`.
-- Create a new solution with a project in that directory. There should only be one solution and only one project in that
-directory.
-- The project name must begin with `MeldRx.Community.McpTools.`. For example: `MeldRx.Community.McpTools.DarenaSolutions`.
-- The assembly name of the project must match the project name. In other words, there shouldn't be a custom `<AssemblyName>`
-attribute in the `.csproj` file.
-- In your solution, add an existing project, and add the existing core project located in `../core/MeldRx.Community.Mcp.Core/MeldRx.Community.Mcp.Core.csproj`.
-You will need to then reference this project with your tools project.
-- All MCP tools in the project must implement the `IMcpTool` interface located in `MeldRx.Community.Mcp.Core`.
+- In the project, create a directory that represents you as an individual or an organization. For example `DarenaSolutions`.
+  - Follow c# conventions and ensure this directory is pascal-cased.
+- Add your tools and any additional code that your tool requires to run.
+- All MCP tools in the directory must implement the `IMcpTool` interface located in `MeldRx.Community.Mcp.Core`.
 
 ### Registering MCP Tools
-The community should have an easy way to register your MCP tools for use with dependency injection. We have placed additional
-rules around this idea.
+After you have created your tools, you will need to update the top level `ServiceCollectionExtensions.cs` file so that the
+tool can be registered.
 
-- Your project must have a top level extensions class called `ServiceCollectionExtensions.cs`. In it, you should have one
-or more extension methods that register your MCP tools.
-- Each extension method must begin with `Add` and end with `McpTool` or `McpTools`. For example `AddPatientAgeMcpTool` or
-`AddDarenaSolutionsMcpTools`.
-- Tools should not be registered as a singleton.
-- These extension methods may register additional services as needed. It's a great idea to make these additional services
-configurable by the developer.
+In the file, create a new private extension method. This method must begin with `Add` and end with `McpTool` or `McpTools`.
+This method should register all your tools and dependent services. Finally, update the public extension method `AddMcpTools`
+so that it calls your private extension.
+
+Your tools should not be registered as a singleton.
+
+Here is an example:
 
 ```csharp
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddPatientAgeMcpTool(this IServiceCollection services)
+    public static IServiceCollection AddMcpTools(this IServiceCollection services)
+    {
+        return services.AddPatientAgeMcpTool();
+    }
+    
+    private static IServiceCollection AddPatientAgeMcpTool(this IServiceCollection services)
     {
         return services
             .AddSingleton<IPatientSearchService, PatientSearchService>()
@@ -43,21 +45,21 @@ public static class ServiceCollectionExtensions
 }
 ```
 
-This method above registers a scoped MCP tool and registers an `IPatientSearchService` service. A developer using this tool
-can create their own implementation of `IPatientSearchService` if required and override the default implementation.
+This method above registers a scoped MCP tool and registers an `IPatientSearchService` service.
 
-### README
-Ensure you have a README located in `/tools/{your directory}/README.md`. The README should describe your tools and what
-the purpose of the tools are. It is also a great idea to highlight any configurability available in your MCP tool and what
-steps a developer can take to make those configurations.
+### Formatting
+This repository uses [csharpier](https://csharpier.com/) for formatting. Set this up in your IDE and ensure your code is
+formatted before creating a PR.
+
+### Package Dependencies
+You are limited to a set of external library dependencies (nuget packages). If your tool requires a nuget package that is
+not listed here, send us a request and we will review it.
+
+- `Hl7.Fhir.R4` - 5.11.7
+- `ModelContextProtocol.AspNetCore` - 0.1.0-preview.13
+- `System.IdentityModel.Tokens.Jwt` - 8.10.0
 
 ## Pull Requests
 Once you are ready with your project, you can create a PR to the main branch. Several github workflows will begin ensuring
 that your submission follows the restrictions. A DarenaSolutions maintainer will review your PR. Once any comments or changes
 have been resolved and the PR has been approved, you may merge your changes.
-
-The merge will trigger an action that will make your package available in the nuget repository with a name that matches
-your project name.
-
-## Example Project
-An example project has been added for reference: [Example Project](darena-solutions)

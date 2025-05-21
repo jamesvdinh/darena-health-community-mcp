@@ -1,6 +1,6 @@
 using System.Net.Http.Headers;
 
-namespace MeldRx.Community.McpTools.DarenaSolutions;
+namespace MeldRx.Community.Mcp.Core;
 
 public class FhirClientAuthMessageHandler(string accessToken) : HttpClientHandler
 {
